@@ -1,31 +1,27 @@
 # Project
 
-This project deploys 2x Meraki vMXs for "readiness" in a 'HA' pair within their respective Meraki and Azure environments.  
-Readiness meaning that this is "ready" for 'HA', but does not setup peering with a vWAN, Route Server, or some other routing device in which would allow for L3 HA to operate.
-This is intended to be imported, manually configured, or edited onto the script.
+This project deploys 2x Meraki vMXs for "readiness" to deploy in a HA pair within their respective Meraki and Azure constructs. Readiness meaning that this prepares the vMXs for 'HA', but does not setup & peer to a vWAN, Route Server, or some other routing device in which would allow for L3 HA operation. This is intended to be imported, manually configured, or edited onto the script afterwards.
 
-This project is meant as a learning resource/project, therefore this does *not* necessarily include some advanced configurations that would work better when at scale / in production environments, and instead with the purpose of a simplistic automation demo.  
-Therefore, this avoids Terraform Cloud tenant, Terraform state files live locally, uses Azure tenant or Service Principal login for ease (for auth), variables are hard-coded, and environmental variables set locally for convenience.  
-Production infrastructure should not use this configuraion, and suggested use of Terraform Cloud or similar offering, alongside further advanced configuration / authentication / backup states.
+This project is meant as a learning resource/project, therefore this does *not* necessarily include some advanced configurations that would work better when at scale / in production environments, and instead with the purpose of a simplistic automation demo. Please refer to the "Validated Designs" section for advanced configuration. Therefore, this avoids Terraform Cloud tenant, Terraform state files live locally, uses Azure tenant or Service Principal login for ease (for auth), variables are hard-coded, and environmental variables set locally for convenience. Production infrastructure should not use this configuraion, and suggested use of Terraform Cloud or similar offering, alongside further advanced configuration / authentication / backup states.
 
 Example importing statement, for vWAN:  
 `terraform import azurerm_virtual_wan.example /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.Network/virtualWans/testvwan`  
 
 Example azurerm resource schema, for vWAN:  
 `azurerm_virtual_wan`  
-
-- Main.tf file is intended for main Terraform scripting. Outlining what infrastructure is deployed with `resources` or read with `data` source statements, alongside `local` variables used.  
-- Providers.tf file denotes the Meraki and Azurerm providers used for their respective schemas. The provider block follows the schema, with the `use_cli` feature requiring you to login with the SP / MI / Tenant for Azure.  
-- Outputs.tf file is optional and commented out. When uncommented, this allows infrastructure creation output to the CLI.  
-- Variables.tf file is intended to be altered with the prospective parameters used within the `default` map blocks.     
-- Tfstate / .terraform.lock.hcl / providers, are not shown for sensitivity. Install Terraform and ensure providers are installed with `terraform init`.   
-
+  
+Terraform files:  
+- Main.tf file is intended for main Terraform scripting. Primarily outlining what infrastructure is deployed with `resources` or read with `data` source statements.  
+- Providers.tf file denotes the Meraki and Azurerm providers used for their respective schemas. The azurerm provider block follows the schema, with the `use_cli` feature requiring you to login with the SP / MI / Tenant for Azure.  
+- Outputs.tf file is optional and commented out. When uncommented, you can specify the value output (reference schema) of each infrastructure resource creation / read to the CLI.  
+- Variables.tf file is intended to be altered with the prospective parameters used within the `default` map blocks.  
+- Tfstate / .terraform.lock.hcl / providers, are not shown for sensitivity. Install Terraform, outline Terraform providers, and ensure providers are installed with a `terraform init`.     
 
 # Validated Designs
 
 ***
 For Cisco Validated Design, please see Juan's work and refer to README.md - https://github.com/jsterben/cisco_azure_validated_designs  
-This Github is highly advised to be referred to for advanced useage with Terrafor for vMX deployment.
+This Github repository is highly advised to be referred to for advanced usage with Terraform for vMX deployment.
 ***
 
 # Pre-requisites
